@@ -1,50 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <data>
-
-        <template id="alya_meta_personal_report_template" name="alya.meta.personal.report.template">
-
+        <template id="alya_meta_personal_report_template" name="Reporte de Meta Personal">
             <t t-call="web.html_container">
                 <t t-call="web.external_layout">
-
-                    <t t-set="o" t-value="docs"/>
-
+                    <t t-set="meta" t-value="docs"/>
                     <div class="page">
-
                         <h2 style="text-align:center;">Reporte de Meta Personal</h2>
                         <hr/>
-
                         <h3>
                             <strong>Nombre:</strong>
-                            <t t-esc="o.nombre"/>
+                            <t t-esc="meta.name"/>
                         </h3>
-
                         <p>
                             <strong>Categoría:</strong>
-                            <t t-esc="o._fields['categoria'].convert_to_export(o.categoria, o)"/>
+                            <t t-esc="meta._fields['categoria'].convert_to_export(meta.categoria, meta)"/>
                         </p>
-
                         <p>
                             <strong>Estado:</strong>
-                            <t t-esc="o.estado"/>
+                            <t t-esc="meta.estado"/>
                         </p>
-
                         <p>
                             <strong>Fecha límite:</strong>
-                            <t t-esc="o.fecha_limite"/>
+                            <t t-esc="meta.fecha_limite"/>
                         </p>
-
                         <p>
                             <strong>Días restantes:</strong>
-                            <t t-esc="o.dias_restantes"/>
+                            <t t-esc="meta.dias_restantes"/>
                         </p>
-
                         <h3>Descripción</h3>
-                        <p><t t-raw="o.descripcion"/></p>
-
-                        <br/>
-
-
+                        <p><t t-raw="meta.descripcion"/></p>
                         <h3>Actividades</h3>
                         <table class="table table-sm">
                             <thead>
@@ -53,21 +38,17 @@
                                     <th>Tipo</th>
                                 </tr>
                             </thead>
-
                             <tbody>
-                                <t t-foreach="o.actividad_ids" t-as="act">
+                                <t t-foreach="meta.actividad_ids" t-as="actividad">
                                     <tr>
-                                        <td><t t-esc="act.fecha"/></td>
+                                        <td><t t-esc="actividad.fecha"/></td>
                                         <td>
-                                            <t t-esc="act._fields['tipo_actividad'].convert_to_export(act.tipo_actividad, act)"/>
+                                            <t t-esc="actividad._fields['tipo_actividad'].convert_to_export(actividad.tipo_actividad, actividad)"/>
                                         </td>
                                     </tr>
                                 </t>
                             </tbody>
                         </table>
-
-                        <br/>
-
                         <h3>Recomendaciones</h3>
                         <table class="table table-sm">
                             <thead>
@@ -75,24 +56,19 @@
                                     <th>Tipo</th>
                                 </tr>
                             </thead>
-
                             <tbody>
-                                <t t-foreach="o.recomendacion_ids" t-as="rec">
+                                <t t-foreach="meta.recomendacion_ids" t-as="recomendacion">
                                     <tr>
                                         <td>
-                                            <t t-esc="rec._fields['tipo_recomendacion'].convert_to_export(rec.tipo_recomendacion, rec)"/>
+                                            <t t-esc="recomendacion._fields['tipo_recomendacion'].convert_to_export(recomendacion.tipo_recomendacion, recomendacion)"/>
                                         </td>
                                     </tr>
                                 </t>
                             </tbody>
                         </table>
-
                     </div>
-
                 </t>
             </t>
-
         </template>
-
     </data>
 </odoo>

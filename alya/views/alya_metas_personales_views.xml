@@ -12,13 +12,13 @@
                   decoration-info="estado == 'en_progreso'">
 
                 <header>
-                    <button name="action_marcar_varias_completadas"
+                    <button name="action_marcar_completado"
                             type="object"
                             string="Marcar seleccionadas como completadas"
                             class="btn-primary"/>
                 </header>
 
-                <field name="nombre"/>
+                <field name="name"/>
                 <field name="categoria"/>
                 <field name="estado" widget="badge"/>
                 <field name="fecha_limite"/>
@@ -87,9 +87,9 @@
                 <sheet>
 
                     <div class="oe_title">
-                        <label for="nombre" string="Nombre de la Meta"/>
+                        <label for="name" string="Nombre de la Meta"/>
                         <h1>
-                            <field name="nombre" placeholder="Escribe el nombre de tu meta"/>
+                            <field name="name" placeholder="Escribe el nombre de tu meta"/>
                         </h1>
                     </div>
 

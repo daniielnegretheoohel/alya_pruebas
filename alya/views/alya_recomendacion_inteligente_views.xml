@@ -6,7 +6,6 @@
         <field name="model">alya.recomendacion.inteligente</field>
         <field name="arch" type="xml">
             <list string="Recomendaciones Inteligentes" editable="bottom">
-                <field name="meta_id" invisible="1"/>
                 <field name="fecha"/>
                 <field name="tipo_recomendacion"/>
                 <field name="descripcion"/>
@@ -21,6 +20,7 @@
             <form string="Recomendación Inteligente">
                 <sheet>
                     <group>
+                        <field name="meta_id" invisible="1"/>
                         <field name="fecha"/>
                         <field name="tipo_recomendacion"/>
                         <field name="descripcion"/>
