@@ -1,11 +1,11 @@
 {
     'name': 'Asistente de Desarrollo Personal',
-    'version': '1.0.0',
+    'version': '18.0',
     'summary': 'Módulo inteligente para seguimiento de metas y desarrollo personal',
     'author': 'Oohel Technologies S.A. de C.V.',
-    'maintainer': 'Geovani Daniel Nolasco Negrete <geovani.negrete@oohel.net>',
+    'maintainer': 'Geovani  Nolasco N. <geovani.negrete@oohel.net>',
     'contributors': [
-        'Gio <geovani.negrete@oohel.net>',
+        'Geovani  Nolasco N. <geovani.negrete@oohel.net>',
     ],
     'category': 'Productivity/Personal Development',
     'description': """
@@ -17,7 +17,7 @@
         - Integración con contactos (res.partner)
         - Reportes PDF personalizados
     """,
-    'website': 'https://github.com/daniielnegretheoohel',
+    'website': 'https://oohel.net',
     'depends': [
         'base',
         'mail',

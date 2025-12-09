@@ -12,13 +12,14 @@ TIPO_RECOMENDACION = [
     ("motivacion", "Motivación"),
 ]
 
-class recomendacion_Inteligente(models.Model):
+class Recomendacion_Inteligente(models.Model):
     """
     Representa una recomendación generada (manual o automáticamente)
     asociada a una meta personal.
     """
     _name = "alya.recomendacion.inteligente"
     _description = "Recomendaciones Inteligentes para Metas"
+
     meta_id = fields.Many2one(
         comodel_name= "alya.meta.personal",
         string="Meta Relacionada",

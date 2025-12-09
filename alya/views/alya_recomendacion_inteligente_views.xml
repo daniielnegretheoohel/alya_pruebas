@@ -30,7 +30,7 @@
         </field>
     </record>
 
-    <record id="alya_recomendaciones_inteligentes_action" model="ir.actions.act_window">
+    <record id="alya_recomendacion_inteligente_act_window" model="ir.actions.act_window">
         <field name="name">Recomendaciones Inteligentes</field>
         <field name="res_model">alya.recomendacion.inteligente</field>
         <field name="view_mode">list,form</field>

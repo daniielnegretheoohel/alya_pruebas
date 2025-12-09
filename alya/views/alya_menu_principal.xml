@@ -8,17 +8,17 @@
 
         <menuitem id="alya_metas_personales_menu"
                   name="Mis Metas"
-                  action="alya_metas_personales_action"
+                  action="alya_meta_personal_act_window"
                   sequence="10"/>
 
         <menuitem id="alya_recomendaciones_menu"
                   name="Recomendaciones"
-                  action="alya_recomendaciones_inteligentes_action"
+                  action="alya_recomendacion_inteligente_act_window"
                   sequence="20"/>
 
         <menuitem id="alya_seguimiento_actividades_menu"
                   name="Seguimiento de Actividades"
-                  action="alya_seguimiento_actividades_action"
+                  action="alya_seguimiento_actividad_act_window"
                   sequence="30"/>
 
     </menuitem>

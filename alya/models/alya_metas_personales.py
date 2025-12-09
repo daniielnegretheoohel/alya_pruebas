@@ -4,7 +4,6 @@
 """
 
 from datetime import date
-
 from odoo import api, fields, models
 from odoo.exceptions import UserError, ValidationError
 
@@ -23,9 +22,9 @@ ESTADO_META = [
     ("no_logrado", "No Logrado"),
 ]
 PRIORIDAD_META = [
-    ("0", "Baja"),
-    ("1", "Media"),
-    ("2", "Alta"),
+    ("baja", "Baja"),
+    ("media", "Media"),
+    ("alta", "Alta"),
 ]
 
 class MetaPersonal(models.Model):
@@ -43,12 +42,12 @@ class MetaPersonal(models.Model):
         string= "Descripcion",
         tracking=True,
     )
-    categoria = fields.Selection(
-        selection = CATEGORIA_META,
+    category = fields.Selection(
+        selection = categoria_meta,
         string="Categoria",
         required=True,
     )
-    estado = fields.Selection(
+    state = fields.Selection(
         selection = ESTADO_META,
         string="Estado",
         default="borrador",
@@ -57,7 +56,7 @@ class MetaPersonal(models.Model):
     prioridad = fields.Selection(
         selection = PRIORIDAD_META,
         string="Prioridad",
-        default="1",
+        default="media",
         tracking=True,
     )
     fecha_limite = fields.Date(
@@ -112,111 +111,141 @@ class MetaPersonal(models.Model):
 
     @api.model
     def default_get(self, fields_list):
-        """Establece valores predeterminados al crear una meta personal."""
+        """Establece valores predeterminados al crear una meta personal.
+        :return: Valores predeterminados.
+        :rtype: dict
+        """
         vals = super().default_get(fields_list)
         vals.setdefault("prioridad", "1")
         return vals
 
-    @api.depends("estado")
+    @api.depends("state")
     def _compute_show_boton_completado(self):
-        """Define si se debe mostrar el botón de completar la meta."""
+        """Define si se debe mostrar el botón de completar la meta.
+        :return:None
+        :rtype:None
+        """
         for meta in self:
-            meta.show_boton_completado = meta.estado != "completado"
+            meta.show_boton_completado = meta.state != "completado"
 
     @api.depends("actividad_ids")
     def _compute_actividad_count(self):
-        """Calcula el número de actividades asociadas a la meta."""
+        """Calcula el número de actividades asociadas a la meta.
+        :return:None
+        :rtype:None
+        """
         for meta in self:
             meta.actividad_count = len(meta.actividad_ids)
 
     @api.depends("recomendacion_ids")
     def _compute_recomendacion_count(self):
-        """Calcula el número de recomendaciones asociadas a la meta."""
+        """Calcula el número de recomendaciones asociadas a la meta.
+        :return:None
+        :rtype:None
+        """
         for meta in self:
             meta.recomendacion_count = len(meta.recomendacion_ids)
 
     @api.depends("fecha_limite")
     def _compute_dias_restantes(self):
-        """Calcula la cantidad de días restantes hasta la fecha límite."""
+        """Calcula la cantidad de días restantes hasta la fecha límite.
+        :return:None
+        :rtype:None
+        """
         today = date.today()
         for meta in self:
             if meta.fecha_limite:
                 meta.dias_restantes = (meta.fecha_limite - today).days
             else:
                 meta.dias_restantes = 0
+
     @api.constrains("fecha_limite")
     def _check_fecha_limite(self):
-        """Valida que la fecha límite no esté en el pasado."""
+        """Valida que la fecha límite no esté en el pasado.
+        :return:None
+        :rtype:None
+        """
         today = fields.Date.today()
         for meta in self:
             if meta.fecha_limite and meta.fecha_limite < today:
                 raise ValidationError(
                     "La fecha límite no puede ser en el pasado."
                 )
-    @api.constrains("estado", "actividad_ids")
+
+    @api.constrains("state", "actividad_ids")
     def _check_actividades_para_completar(self):
-        """Evita marcar metas como completadas sin actividades registradas."""
+        """Evita marcar metas como completadas sin actividades registradas.
+        :return:None
+        :rtype:None
+        """
         for meta in self:
-            if meta.estado == "completado" and not meta.actividad_ids:
+            if meta.state == "completado" and not meta.actividad_ids:
                 raise ValidationError(
                     "No puedes marcar una meta como completada "
                     "sin registrar al menos una actividad."
                 )
-    def write(self, vals):
-        """Registra un mensaje cuando la meta cambia de estado."""
-        estados_antes = {rec.id: rec.estado for rec in self}
-        res = super().write(vals)
-        if "estado" in vals:
-            for rec in self:
-                antes = estados_antes.get(rec.id)
-                despues = rec.estado
-                if antes != despues:
-                    rec.message_post(
-                        body=(
-                            "🔄 Estado cambiado: "
-                            f"<b>{antes}</b> → <b>{despues}</b>"
-                        )
-                    )
-        return res
+
     def unlink(self):
-        """Evita eliminar metas que ya han sido completadas."""
+        """Evita eliminar metas que ya han sido completadas.
+        :return: Resultado de la eliminacion
+        :rtype: bool
+        """
         for meta in self:
-            if meta.estado == "completado":
+            if meta.state == "completado":
                 raise UserError("No puedes eliminar metas completadas.")
-        return super().unlink()
+        return super(MetaPersonal, self).unlink()
+
     def action_avanzar(self):
-        """Avanza la meta al siguiente estado del flujo."""
+        """Avanza la meta al siguiente state del flujo.
+        :return: True si la operación se realizó.
+        :rtype: bool
+        """
         for meta in self:
-            if meta.estado == "borrador":
-                meta.estado = "en_progreso"
-            elif meta.estado == "en_progreso":
-                meta.estado = "en_pausa"
-            elif meta.estado == "en_pausa":
-                meta.estado = "completado"
+            if meta.state == "borrador":
+                meta.state = "en_progreso"
+            elif meta.state == "en_progreso":
+                meta.state = "en_pausa"
+            elif meta.state == "en_pausa":
+                meta.state = "completado"
+
     def action_retroceder(self):
-        """Retrocede la meta al estado anterior del flujo."""
+        """Retrocede la meta al state anterior del flujo.
+        :return: True si la operación se realizó.
+        :rtype: bool
+        """
         for meta in self:
-            if meta.estado == "completado":
-                meta.estado = "en_pausa"
-            elif meta.estado == "en_pausa":
-                meta.estado = "en_progreso"
-            elif meta.estado == "en_progreso":
-                meta.estado = "borrador"
-            elif meta.estado == "no_logrado":
-                meta.estado = "en_progreso"
+            if meta.state == "completado":
+                meta.state = "en_pausa"
+            elif meta.state == "en_pausa":
+                meta.state = "en_progreso"
+            elif meta.state == "en_progreso":
+                meta.state = "borrador"
+            elif meta.state == "no_logrado":
+                meta.state = "en_progreso"
+
     def action_marcar_completado(self):
-        """Marca una meta como completada."""
+        """Marca una meta como completada.
+        :return: True si la operación se realizó.
+        :rtype: bool
+        """
         for meta in self:
-            if meta.estado != "completado":
-                meta.estado = "completado"
+            if meta.state != "completado":
+                meta.state = "completado"
+
     def action_meta_personal_report(self):
-        """Lanza el reporte PDF de meta personal."""
+        """Lanza el reporte PDF de meta personal.
+        :return: Accion del reporte
+        :rtype: dict
+        """
         return self.env.ref("alya.action_report_meta_personal").report_action(
             self
         )
+
     def open_actividades(self):
-        """Genera el reporte PDF correspondiente a la meta personal."""
-        self.ensure_one()
+        """Genera el reporte PDF correspondiente a la meta personal.
+        :return: Acción de ventana con el dominio aplicado.
+        :rtype: dict
+        """
         return {
             "type": "ir.actions.act_window",
             "name": "Actividades",
@@ -225,14 +254,14 @@ class MetaPersonal(models.Model):
             "domain": [("meta_id", "=", self.id)],
             "context": {"default_meta_id": self.id},
         }
+
     def open_recomendaciones(self):
-        """Abre la vista de actividades relacionadas con la meta."""
-        self.ensure_one()
-        return {
-            "type": "ir.actions.act_window",
-            "name": "Recomendaciones",
-            "res_model": "alya.recomendacion.inteligente",
-            "view_mode": "list,form",
-            "domain": [("meta_id", "=", self.id)],
-            "context": {"default_meta_id": self.id},
-        }
+        """Abre la vista de actividades relacionadas con la meta.
+        :return: Acción de ventana con el dominio aplicado.
+        :rtype: dict
+        """
+        action = self.env.ref("alya.action_alya_meta_recomendaciones").read()[0]
+        action["domain"] = [("meta_id", "in", self.ids)]
+        action["context"] = {"default_meta_id": self.id}
+
+        return action

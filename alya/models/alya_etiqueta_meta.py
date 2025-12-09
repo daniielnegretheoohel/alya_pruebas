@@ -5,6 +5,7 @@
 
 from odoo import models, fields
 
+
 class EtiquetaMetaPersonal(models.Model):
     """
     Modelo para definir etiquetas utilizadas en las metas personales.
@@ -12,6 +13,7 @@ class EtiquetaMetaPersonal(models.Model):
     """
     _name = "alya.etiqueta.meta.personal"
     _description = "Etiquetas para Metas Personales"
+
     name = fields.Char(
         string="Nombre",
         required=True,

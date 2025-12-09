@@ -30,7 +30,7 @@
         </field>
     </record>
 
-    <record id="alya_seguimiento_actividades_action" model="ir.actions.act_window">
+    <record id="alya_seguimiento_actividad_act_window" model="ir.actions.act_window">
         <field name="name">Seguimiento de Actividades</field>
         <field name="res_model">alya.seguimiento.actividad</field>
         <field name="view_mode">list,form</field>

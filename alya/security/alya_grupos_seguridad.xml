@@ -7,13 +7,13 @@
         <field name="sequence">10</field>
     </record>
 
-    <record id="alya_group_desarrollo_personal_user" model="res.groups">
+    <record id="alya_desarrollo_personal_group_user" model="res.groups">
         <field name="name">Usuario</field>
         <field name="category_id" ref="module_category_desarrollo_personal"/>
         <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
     </record>
 
-    <record id="alya_group_desarrollo_personal_manager" model="res.groups">
+    <record id="alya_desarrollo_personal_group_manager" model="res.groups">
         <field name="name">Administrador</field>
         <field name="category_id" ref="module_category_desarrollo_personal"/>
         <field name="implied_ids" eval="[
