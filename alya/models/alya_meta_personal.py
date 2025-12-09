@@ -1,11 +1,12 @@
 """
-@author: Geovani Daniel Nolasco Negrete <geovani.negrete@oohel.net>
+@author: Geovani Nolasco N. <geovani.negrete@oohel.net>
 @date: 05/12/2026
 """
 
 from datetime import date
 from odoo import api, fields, models
 from odoo.exceptions import UserError, ValidationError
+
 
 CATEGORIA_META = [
     ("profesional", "Desarrollo Profesional"),
@@ -26,6 +27,7 @@ PRIORIDAD_META = [
     ("media", "Media"),
     ("alta", "Alta"),
 ]
+
 
 class MetaPersonal(models.Model):
     _name = "alya.meta.personal"
@@ -101,6 +103,7 @@ class MetaPersonal(models.Model):
         string="Mostrar boton completado",
         compute="_compute_show_boton_completado",
     )
+
     _sql_constraints = [
         (
             "unique_nombre_meta",
@@ -122,8 +125,8 @@ class MetaPersonal(models.Model):
     @api.depends("state")
     def _compute_show_boton_completado(self):
         """Define si se debe mostrar el botón de completar la meta.
-        :return:None
-        :rtype:None
+        :return: None
+        :rtype: None
         """
         for meta in self:
             meta.show_boton_completado = meta.state != "completado"
@@ -131,8 +134,8 @@ class MetaPersonal(models.Model):
     @api.depends("actividad_ids")
     def _compute_actividad_count(self):
         """Calcula el número de actividades asociadas a la meta.
-        :return:None
-        :rtype:None
+        :return: None
+        :rtype: None
         """
         for meta in self:
             meta.actividad_count = len(meta.actividad_ids)
@@ -140,8 +143,8 @@ class MetaPersonal(models.Model):
     @api.depends("recomendacion_ids")
     def _compute_recomendacion_count(self):
         """Calcula el número de recomendaciones asociadas a la meta.
-        :return:None
-        :rtype:None
+        :return: None
+        :rtype: None
         """
         for meta in self:
             meta.recomendacion_count = len(meta.recomendacion_ids)
@@ -149,8 +152,8 @@ class MetaPersonal(models.Model):
     @api.depends("fecha_limite")
     def _compute_dias_restantes(self):
         """Calcula la cantidad de días restantes hasta la fecha límite.
-        :return:None
-        :rtype:None
+        :return: None
+        :rtype: None
         """
         today = date.today()
         for meta in self:
@@ -162,8 +165,8 @@ class MetaPersonal(models.Model):
     @api.constrains("fecha_limite")
     def _check_fecha_limite(self):
         """Valida que la fecha límite no esté en el pasado.
-        :return:None
-        :rtype:None
+        :return: None
+        :rtype: None
         """
         today = fields.Date.today()
         for meta in self:
@@ -175,8 +178,8 @@ class MetaPersonal(models.Model):
     @api.constrains("state", "actividad_ids")
     def _check_actividades_para_completar(self):
         """Evita marcar metas como completadas sin actividades registradas.
-        :return:None
-        :rtype:None
+        :return: None
+        :rtype: None
         """
         for meta in self:
             if meta.state == "completado" and not meta.actividad_ids:

@@ -12,7 +12,7 @@
                         <list>
                             <field name="name"/>
                             <field name="categoria"/>
-                            <field name="estado"/>
+                            <field name="state"/>
                             <field name="fecha_limite"/>
                         </list>
                     </field>

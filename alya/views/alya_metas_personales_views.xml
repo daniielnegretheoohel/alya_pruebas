@@ -6,10 +6,10 @@
         <field name="model">alya.meta.personal</field>
         <field name="arch" type="xml">
             <list string="Metas Personales"
-                  decoration-success="estado == 'completado'"
-                  decoration-danger="estado == 'no_logrado'"
-                  decoration-warning="estado == 'en_pausa'"
-                  decoration-info="estado == 'en_progreso'">
+                  decoration-success="state == 'completado'"
+                  decoration-danger="state == 'no_logrado'"
+                  decoration-warning="state == 'en_pausa'"
+                  decoration-info="state == 'en_progreso'">
                 <header>
                     <button name="action_marcar_completado"
                             type="object"
@@ -18,7 +18,7 @@
                 </header>
                 <field name="name"/>
                 <field name="categoria"/>
-                <field name="estado" widget="badge"/>
+                <field name="state" widget="badge"/>
                 <field name="fecha_limite"/>
                 <field name="actividad_count"/>
                 <field name="recomendacion_count"/>
@@ -37,22 +37,22 @@
                             type="object"
                             string="Avanzar →"
                             class="btn-primary"
-                            modifiers='{"invisible": [["estado","in",["completado","no_logrado"]]]}'/>
+                            modifiers='{"invisible": [["state","in",["completado","no_logrado"]]]}'/>
                     <button name="action_retroceder"
                             type="object"
                             string="← Retroceder"
                             class="btn-secondary"
-                            modifiers='{"invisible": [["estado","=","borrador"]]}'/>
+                            modifiers='{"invisible": [["state","=","borrador"]]}'/>
                     <button name="action_marcar_completado"
                             type="object"
                             string="Marcar como Completado ✔"
                             class="oe_highlight"
-                            modifiers='{"invisible": [["estado","=","completado"]]}'/>
+                            modifiers='{"invisible": [["state","=","completado"]]}'/>
                     <button name="action_meta_personal_report"
                             string="Imprimir Meta"
                             type="object"
                             class="btn-secondary"/>
-                    <field name="estado"
+                    <field name="state"
                            widget="statusbar"
                            statusbar_visible="borrador,en_progreso,en_pausa,completado,no_logrado"/>
                 </header>
@@ -96,7 +96,7 @@
                             <field name="recomendacion_count"/>
                         </group>
                         <group>
-                            <field name="estado" invisible="1"/>
+                            <field name="state" invisible="1"/>
                         </group>
                     </group>
                     <notebook>

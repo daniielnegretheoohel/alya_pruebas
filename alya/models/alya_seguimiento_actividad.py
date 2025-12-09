@@ -1,9 +1,10 @@
 """
-@author: Geovani Daniel Nolasco Negrete <geovani.negrete@oohel.net>
+@author: Geovani Nolasco N. <geovani.negrete@oohel.net>
 @date: 05/12/2026
 """
 
 from odoo import fields, models
+
 
 TIPO_ACTIVIDAD = [
     ("actualizacion_progreso", "Actualización de Progreso"),
@@ -11,6 +12,7 @@ TIPO_ACTIVIDAD = [
     ("hito", "Hito Alcanzado"),
     ("desafio", "Desafío Encontrado"),
 ]
+
 
 class Seguimiento_Actividad(models.Model):
     """
