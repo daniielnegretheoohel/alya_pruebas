@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="alya_meta_personal_view_list" model="ir.ui.view">
+        <field name="name">alya.meta.personal.view.list</field>
+        <field name="model">alya.meta.personal</field>
+        <field name="arch" type="xml">
+            <list string="Metas Personales"
+                  decoration-success="state == 'completado'"
+                  decoration-danger="state == 'no_logrado'"
+                  decoration-warning="state == 'en_pausa'"
+                  decoration-info="state == 'en_progreso'">
+                <header>
+                    <button name="action_marcar_completado"
+                            type="object"
+                            string="Marcar seleccionadas como completadas"
+                            class="btn-primary"/>
+                </header>
+                <field name="name"/>
+                <field name="categoria"/>
+                <field name="state" widget="badge"/>
+                <field name="fecha_limite"/>
+                <field name="actividad_count"/>
+                <field name="recomendacion_count"/>
+                <field name="dias_restantes"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="alya_meta_personal_view_form" model="ir.ui.view">
+        <field name="name">alya.meta.personal.view.form</field>
+        <field name="model">alya.meta.personal</field>
+        <field name="arch" type="xml">
+            <form string="Meta Personal">
+                <header>
+                    <button name="action_avanzar"
+                            type="object"
+                            string="Avanzar →"
+                            class="btn-primary"
+                            modifiers='{"invisible": [["state","in",["completado","no_logrado"]]]}'/>
+                    <button name="action_retroceder"
+                            type="object"
+                            string="← Retroceder"
+                            class="btn-secondary"
+                            modifiers='{"invisible": [["state","=","borrador"]]}'/>
+                    <button name="action_marcar_completado"
+                            type="object"
+                            string="Marcar como Completado ✔"
+                            class="oe_highlight"
+                            modifiers='{"invisible": [["state","=","completado"]]}'/>
+                    <button name="action_meta_personal_report"
+                            string="Imprimir Meta"
+                            type="object"
+                            class="btn-secondary"/>
+                    <field name="state"
+                           widget="statusbar"
+                           statusbar_visible="borrador,en_progreso,en_pausa,completado,no_logrado"/>
+                </header>
+                <div class="oe_button_box" name="button_box">
+                    <button class="oe_stat_button"
+                            type="object"
+                            name="open_actividades"
+                            icon="fa-check-circle">
+                        <field string="Actividades" name="actividad_count" widget="statinfo"/>
+                    </button>
+                    <button class="oe_stat_button"
+                            type="object"
+                            name="open_recomendaciones"
+                            icon="fa-lightbulb">
+                        <field string="Recomendaciones" name="recomendacion_count" widget="statinfo"/>
+                    </button>
+                </div>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Nombre de la Meta"/>
+                        <h1>
+                            <field name="name" placeholder="Escribe el nombre de tu meta"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="categoria"/>
+                            <field name="fecha_limite"/>
+                        </group>
+                        <group>
+                            <field name="prioridad"/>
+                        </group>
+                        <group>
+                            <field name="etiqueta_ids" widget="many2many_tags"/>
+                        </group>
+                        <group>
+                            <field name="dias_restantes"/>
+                        </group>
+                        <group>
+                            <field name="actividad_count"/>
+                            <field name="recomendacion_count"/>
+                        </group>
+                        <group>
+                            <field name="state" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Descripción">
+                            <field name="descripcion"/>
+                        </page>
+                        <page string="Recomendaciones">
+                            <field name="recomendacion_ids" mode="list,form">
+                                <list editable="bottom">
+                                    <field name="tipo_recomendacion"/>
+                                    <field name="descripcion"/>
+                                </list>
+                                <form>
+                                    <group>
+                                        <field name="tipo_recomendacion"/>
+                                        <field name="descripcion"/>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
+                        <page string="Actividades">
+                            <field name="actividad_ids" mode="list,form">
+                                <list editable="bottom">
+                                    <field name="fecha"/>
+                                    <field name="tipo_actividad"/>
+                                    <field name="descripcion"/>
+                                </list>
+                                <form>
+                                    <group>
+                                        <field name="fecha"/>
+                                        <field name="tipo_actividad"/>
+                                        <field name="descripcion"/>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="alya_meta_personal_act_window" model="ir.actions.act_window">
+        <field name="name">Metas Personales</field>
+        <field name="res_model">alya.meta.personal</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>

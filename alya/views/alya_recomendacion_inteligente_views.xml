@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="alya_recomendacion_inteligente_view_list" model="ir.ui.view">
+        <field name="name">alya.recomendacion.inteligente.view.list</field>
+        <field name="model">alya.recomendacion.inteligente</field>
+        <field name="arch" type="xml">
+            <list string="Recomendaciones Inteligentes" editable="bottom">
+                <field name="fecha"/>
+                <field name="tipo_recomendacion"/>
+                <field name="descripcion"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="alya_recomendacion_inteligente_view_form" model="ir.ui.view">
+        <field name="name">alya.recomendacion.inteligente.view.form</field>
+        <field name="model">alya.recomendacion.inteligente</field>
+        <field name="arch" type="xml">
+            <form string="Recomendación Inteligente">
+                <sheet>
+                    <group>
+                        <field name="meta_id" invisible="1"/>
+                        <field name="fecha"/>
+                        <field name="tipo_recomendacion"/>
+                        <field name="descripcion"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="alya_recomendacion_inteligente_act_window" model="ir.actions.act_window">
+        <field name="name">Recomendaciones Inteligentes</field>
+        <field name="res_model">alya.recomendacion.inteligente</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>

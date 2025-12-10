@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="alya_seguimiento_actividad_view_list" model="ir.ui.view">
+        <field name="name">alya.seguimiento.actividad.view.list</field>
+        <field name="model">alya.seguimiento.actividad</field>
+        <field name="arch" type="xml">
+            <list string="Actividades" editable="bottom">
+                <field name="fecha"/>
+                <field name="tipo_actividad"/>
+                <field name="descripcion"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="alya_seguimiento_actividad_view_form" model="ir.ui.view">
+        <field name="name">alya.seguimiento.actividad.view.form</field>
+        <field name="model">alya.seguimiento.actividad</field>
+        <field name="arch" type="xml">
+            <form string="Actividad">
+                <sheet>
+                    <group>
+                        <field name="meta_id" invisible="1"/>
+                        <field name="fecha"/>
+                        <field name="tipo_actividad"/>
+                        <field name="descripcion"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="alya_seguimiento_actividad_act_window" model="ir.actions.act_window">
+        <field name="name">Seguimiento de Actividades</field>
+        <field name="res_model">alya.seguimiento.actividad</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>

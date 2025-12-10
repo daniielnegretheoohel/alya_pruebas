@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="module_category_desarrollo_personal" model="ir.module.category">
+        <field name="name">Desarrollo</field>
+        <field name="description">Perfiles de acceso para el módulo de desarrollo personal</field>
+        <field name="sequence">10</field>
+    </record>
+
+    <record id="alya_group_user" model="res.groups">
+        <field name="name">Usuario</field>
+        <field name="category_id" ref="module_category_desarrollo_personal"/>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+
+    <record id="alya_group_manager" model="res.groups">
+        <field name="name">Administrador</field>
+        <field name="category_id" ref="module_category_desarrollo_personal"/>
+        <field name="implied_ids" eval="[
+            (4, ref('alya_group_desarrollo_personal_user'))
+        ]"/>
+    </record>
+
+</odoo>
